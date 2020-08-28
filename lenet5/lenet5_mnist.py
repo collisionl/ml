@@ -1,5 +1,4 @@
 import tensorflow as tf
-
 from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
 import numpy as np
 
@@ -22,23 +21,28 @@ def change(filename):
         raws = np.array(raws)
         return raws
 
+
 def Weight(shape):
-    init = tf.truncated_normal(shape, stddev = 0.1, dtype = tf.float32)
+    init = tf.truncated_normal(shape, stddev=0.1, dtype=tf.float32)
     return tf.Variable(init)
+
 
 def Bias(shape):
-    init = tf.constant(0.1, shape = shape, dtype = tf.float32)
+    init = tf.constant(0.1, shape=shape, dtype=tf.float32)
     return tf.Variable(init)
 
+
 def conv2d(x, W, padding):
-    return tf.nn.conv2d(x, W, strides = [1, 1, 1, 1], padding = padding)
+    return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding=padding)
+
 
 def pooling(x):
-    return tf.nn.max_pool(x, ksize = [1, 2, 2, 1], strides = [1, 2, 2, 1],
-                          padding = 'SAME')
+    return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1],
+                          padding='SAME')
+
 
 # read data
-mnist = read_data_sets("./MNIST_data", one_hot = True)
+mnist = read_data_sets("./MNIST_data", one_hot=True)
 sess = tf.InteractiveSession()
 
 # the network
@@ -91,16 +95,13 @@ sess.run(tf.global_variables_initializer())
 for i in range(5000):
     batch = mnist.train.next_batch(50)
     if i % 200 == 0:
-        print(('At step %d, accuracy is ' % i) ,)
-        print(accuracy.eval(feed_dict = {x: batch[0], ans: batch[1]}))
-    train.run(feed_dict = {x: batch[0], ans: batch[1]})
+        print(('At step %d, accuracy is ' % i),)
+        print(accuracy.eval(feed_dict={x: batch[0], ans: batch[1]}))
+    train.run(feed_dict={x: batch[0], ans: batch[1]})
 
 
 print('Accuracy is ',)
-print(accuracy.eval(feed_dict = {x: mnist.test.images, ans: mnist.test.labels}))
+print(accuracy.eval(feed_dict={x: mnist.test.images, ans: mnist.test.labels}))
 
 # x1 = change("./2.jpg")
 # print(resu.eval(feed_dict={x: x1}))
-
-
-
