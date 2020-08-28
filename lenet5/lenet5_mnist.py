@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
 import numpy as np
-
+import datetime
 
 def change(filename):
     image_data_raw = tf.gfile.FastGFile(filename, "rb").read()
@@ -92,12 +92,15 @@ train = tf.train.GradientDescentOptimizer(1e-4).minimize(loss)
 
 sess.run(tf.global_variables_initializer())
 
-for i in range(5000):
+start = datetime.datetime.now()
+for i in range(3000):
     batch = mnist.train.next_batch(50)
     if i % 200 == 0:
         print(('At step %d, accuracy is ' % i),)
         print(accuracy.eval(feed_dict={x: batch[0], ans: batch[1]}))
     train.run(feed_dict={x: batch[0], ans: batch[1]})
+end = datetime.datetime.now()
+print (end-start)
 
 
 print('Accuracy is ',)
